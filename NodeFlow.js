@@ -4,58 +4,78 @@
 var net = require('net');
 var sys = require('sys');
 var util = require('util');
+var binary = require('binary');
+
+var controller = require("./lib/OFController.js");
 
 //Globals
-
 var port = "6633"
-var host = "10.22.238.32"
-
-
-
 
 //OF_MESSAGE
-var OF_MESSAGE = {
-    version: new Buffer(1),
-    // //byte version;   // 1
-    type: new Buffer(1),
-    //   byte type;      // 1
-    length: new Buffer(2),
-    //   short length;   // 2
-    xid: new Buffer(4)
-    //   int xid;      //   4
-}
+// var OF_MESSAGE = {
+//     version: new Buffer(1),
+//     // //byte version;   // 1
+//     type: new Buffer(1),
+//     //   byte type;      // 1
+//     length: new Buffer(2),
+//     //   short length;   // 2
+//     xid: new Buffer(4)
+//     //   int xid;      //   4
+// }
+var Binary = require('binary');
 
-var server = net.createServer(function(h_client) { 
-   
-    h_client.on('connect',
+// console.log(OF_MESSAGE.type)
+var server = net.createServer(function(socket) {
+
+
+    socket.on('connect',
     function() {
         util.log("Received Connect")
-        hello(h_client)
-        setTimeout(function() {
-            h_client.write("close")
-        },
-        20000)
+        hello(socket)
+        // setTimeout(function() {
+        //             socket.write("close")
+        //         },
+        //         20000)
     })
-    h_client.on('data',
+    socket.on('data',
     function(data) {
-        data.copy(OF_MESSAGE.version, 0, 0, 1);
-        data.copy(OF_MESSAGE.type, 0, 1, 2)
+        // save buffer
+        var OF_MESSAGE_HEADER = Binary.parse(data)
+        .word8('Version')
+        .word8('type')
+        .word16bu('length')
+        // .tap(function(vars){
+        // 			util.log("in-tap")
+        // 		   console.dir(vars)
+        // 			})
+        .word32bu('xid')
+        .vars
+        ;
 
-        var OF_TYPE = OF_MESSAGE.type[0]
+
+        // var buffer = new Buffer(data.length)
+        console.dir(OF_MESSAGE_HEADER)
+
+        // util.log("Data-LENGTH-after= " + data.length)
+        // data.copy(OF_MESSAGE.version, 0, 0, 1);
+        //      data.copy(OF_MESSAGE.type, 0, 1, 2)
+        //
+        var OF_TYPE = OF_MESSAGE_HEADER.type
 
         switch (OF_TYPE) {
         case 0x00:
             util.log("HELLO");
-            hello(h_client)
-            feature_request(h_client)
+            hello(socket)
+            feature_request(socket)
             break;
         case 0x01:
-            util.log("ERROR");
+            // util.log("ERROR", OF_MESSAGE.toString('binary', 0, OF_MESSAGE.length));
+            util.log("ERROR")
             break;
         case 0x02:
             util.log("ECHO_REQUEST");
-            echo()
-            feature_request()
+            echo(socket)
+            feature_request(socket)
             break;
         case 0x03:
             util.log("ECHO_REPLY");
@@ -79,8 +99,21 @@ var server = net.createServer(function(h_client) {
             util.log("9");
             break;
         case 0xA:
-            // util.log("PACKET_IN");
-            flow_mod(h_client)
+            util.log("PACKET_IN");
+  			var OF_MESSAGE_PACKET_IN = Binary.parse(data)   
+            var OF_MESSAGE_PACKET_IN = Binary.parse(data)
+            .skip(8)
+            .word32bu('bufferid')
+            .word16bu('totalLength')
+            .word16bu('inport')
+            .buffer('packet', OF_MESSAGE_HEADER.length - OF_MESSAGE_PACKET_IN.totalLength)
+		    .vars
+            ;
+            console.dir(OF_MESSAGE_PACKET_IN)  
+			 // var packbuf = new Buffer(OF_MESSAGE_PACKET_IN.buffer.length)
+			 //             console.log(packbuf)
+
+            //           flow_mod(socket)
             break;
         default:
             console.log(OF_TYPE)
@@ -89,35 +122,44 @@ var server = net.createServer(function(h_client) {
             break;
         }
     })
+    //socket.on
 })
-
- server.listen(port, host);
-
+//socket.on
+//
+ server.listen(port,
+function() {
+    var address = "10.8.3.119";
+    console.log("opened server on %j", address);
+});
+//
+//
 server.addListener("close",
 function(data) {
     sys.puts("Disconnected");
 });
 
 //OF_Methods
-function echo(h_client) {
+function echo(socket) {
     buf_OF_ECHO = [0x01, 0x03, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00]
     var OF_ECHO = new Buffer(buf_OF_ECHO)
-    h_client.write(OF_ECHO)
+    socket.write(OF_ECHO)
+    util.log("ECHO_REPLY")
 }
 
-function hello(h_client) {
+function hello(socket) {
     buf_OF_HELLO = [0x01, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00]
     var OF_HELLO = new Buffer(buf_OF_HELLO)
-    h_client.write(OF_HELLO)
+    socket.write(OF_HELLO)
 }
 
-function feature_request(h_client) {
+function feature_request(socket) {
     buf_OF_FEAT_REQ = [0x01, 0x05, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00]
     var OF_FEAT_REQ = new Buffer(buf_OF_FEAT_REQ)
-    h_client.write(OF_FEAT_REQ)
+    socket.write(OF_FEAT_REQ)
+    util.log("SENT_FEATURE_REQUEST")
 }
 
-function flow_mod(h_client) {
+function flow_mod(socket) {
     buf_OF_FLOW_MOD = [
     0x01, 0x0E, 0x00, 0x50, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x1e, 0x7f,
     0xfb, 0x10, 0x62, 0xa3, 0x62, 0xfb, 0x20, 0xc4, 0x2d, 0xdb, 0xff, 0xff, 0x00, 0x00, 0x08, 0x00,
@@ -125,7 +167,7 @@ function flow_mod(h_client) {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x3c, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x01, 0x1b, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x08, 0x00, 0x03, 0x00, 0x00]
     var OF_FLOW_MOD = new Buffer(buf_OF_FLOW_MOD)
-    h_client.write(OF_FLOW_MOD)
+    socket.write(OF_FLOW_MOD)
 
 }
 
