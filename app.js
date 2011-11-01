@@ -1,3 +1,6 @@
+// Example OpenFlow Controller written for Node.js
+// Prototype to investiage eventing system handling of OF messages
+// Author : Gary Berger, Cisco Systems, inc.
 // Load Libs
 var express = require('express')
  var stylus = require('stylus')
