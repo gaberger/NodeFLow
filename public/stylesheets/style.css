@@ -1,0 +1,67 @@
+#header {
+  width: 960px;
+  height: 75px;
+  background: url("/images/header.jpg");
+}
+#console {
+  background: #eee;
+  position: absolute;
+}
+#console width 960px {
+  height: 75px;
+}
+/*  border 1px solid #ccc*/
+#messages {
+  height: 380px;
+  width: 960px;
+  background: #eee;
+}
+#messages em {
+  text-shadow: 0 1px 0 #fff;
+  color: #380000;
+}
+#messages p {
+  padding: 0;
+  margin: 0;
+  font: 12px Helvetica, Arial;
+  padding: 5px 10px;
+}
+#messages p b {
+  display: inline-block;
+  padding-right: 10px;
+}
+#messages p:nth-child(even) {
+  background: #fff;
+}
+#messages #lines {
+  height: 355px;
+  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+#messages #lines::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+#messages #lines::-webkit-scrollbar-button:start:decrement,
+#messages #lines ::-webkit-scrollbar-button:end:increment {
+  display: block;
+  height: 10px;
+}
+#messages #lines::-webkit-scrollbar-button:vertical:increment {
+  background-color: #fff;
+}
+#messages #lines::-webkit-scrollbar-track-piece {
+  background-color: #fff;
+  -webkit-border-radius: 3px;
+}
+#messages #lines::-webkit-scrollbar-thumb:vertical {
+  height: 50px;
+  background-color: #ccc;
+  -webkit-border-radius: 3px;
+}
+#messages #lines::-webkit-scrollbar-thumb:horizontal {
+  width: 50px;
+  background-color: #fff;
+  -webkit-border-radius: 3px;
+}

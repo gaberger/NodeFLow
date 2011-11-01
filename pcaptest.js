@@ -6,15 +6,27 @@ var sys = require('sys');
 var util = require('util');
 var Binary = require('binary');
 var controller = require("./lib/OFController.js");
+var pcap = require('pcap');
 
-var hostAddr = process.argv[2] 
-util.log(hostAddr)
+var address = process.argv[1]
+var filter = "tcp port "+0x19e9                              
 
+// pcap_session = pcap.createSession("","host Omnicron-XJ4.local and tcp port 6633"); 
+pcap_session = pcap.createSession("", filter); 
+sys.puts("Listening on " + pcap_session.device_name);   
+pcap_session.on('packet', function (raw_packet) {
+    var packet = pcap.decode.packet(raw_packet);
+	console.log("PACKET: " + packet.link.ip.tcp.dport) 
+	// console.dir(packet)
+});
 
 //Globals
 var port = "6633"
 
 // console.log(OF_MESSAGE.type)
+
+
+
 
 var server = net.createServer(function(socket) {  
 	
@@ -118,7 +130,7 @@ var server = net.createServer(function(socket) {
 //
  server.listen(port,
 function() {
-    var address = hostAddr
+    
     console.log("opened server on %j", address); 
 
 
@@ -130,6 +142,10 @@ function(data) {
     sys.puts("Disconnected");
 });
       
+
+
+
+
 
 //OF_Methods
 function echo(socket) {
