@@ -45,7 +45,11 @@ controller.on('PACKETIN', function(socket, data) {
     console.log(pbuf) 
                                              
     	
-}) 
+})  
+
+controller.on('FLOWMOD', function(socket, data){
+	console.log(data)
+})
 
 
 // //Initialize Express

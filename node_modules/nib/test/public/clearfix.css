@@ -1,0 +1,33 @@
+#clearfix-left-only,
+#clearfix-left-right {
+  zoom: 1;
+  background: #00f;
+}
+#clearfix-left-only:before,
+#clearfix-left-right:before,
+#clearfix-left-only:after,
+#clearfix-left-right:after {
+  content: "";
+  display: table;
+}
+#clearfix-left-only:after,
+#clearfix-left-right:after {
+  clear: both;
+}
+#clearfix-left-only div,
+#clearfix-left-right div {
+  background: #008000;
+  margin: 10px;
+  width: 47%;
+}
+#clearfix-left-only div.left,
+#clearfix-left-right div.left {
+  float: left;
+}
+#clearfix-left-only div.right,
+#clearfix-left-right div.right {
+  float: right;
+}
+#clearfix-left-right {
+  margin-top: 10px;
+}
