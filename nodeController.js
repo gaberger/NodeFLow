@@ -3,6 +3,7 @@ var ofl = require('./lib/oflib.js')
 var ofm = require('./lib/ofmessage.js')
 var decoder = require('./lib/decoder.js') 
 var ofc = require('./lib/nodeflow.js')
+var util = require('util');
 
 function nodeController() {
 
