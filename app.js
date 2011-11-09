@@ -49,16 +49,28 @@ function(req, res) {
 });
 
 //Listeners
-app.listen(3000,
-function() {
+app.listen(3000, function() {
     var addr = app.address();
     util.log('WebServer listening on http://' + addr.address + ':' + addr.port);
 });                                
 
-var controller = nc.startController(address, port)
+var iosocket = io.listen(app), client = {} 
+// iosocket.set('log level', 5); 
+//   
 
+var controller = nc.startController(address, port, iosocket)     
   
-io.listen(app)
+// iosocket.sockets.on('connection', function(socket){
+//    
+// 	socket.on('connect', )
+//     iosocket.emit('message', 'Hello')  
+
+	// socket.on('disconnect', function(){
+	// 		if(!socket.client) return;
+	// 		delete client[socket.client]
+	// 	})
+// })
+
 // 
 // 
 //  io.sockets.on('connection',

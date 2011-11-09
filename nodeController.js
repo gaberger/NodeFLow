@@ -1,18 +1,16 @@
-var controller = require('./lib/nodeflow.js') 
-var ofl = require('./lib/oflib.js')
-var ofm = require('./lib/ofmessage.js')
-var decoder = require('./lib/decoder.js') 
-var ofc = require('./lib/nodeflow.js')
-var util = require('util');
+var controller = require('./lib/nodeflow.js')
+ var ofl = require('./lib/oflib.js')
+ var ofm = require('./lib/ofmessage.js')
+ var decoder = require('./lib/decoder.js')
+ var ofc = require('./lib/nodeflow.js')
+ var util = require('util');
 
 function nodeController() {
 
     }
 
-module.exports.startController = function(address, port) {  
-
-  console.log(address + ' ' + port)
-  controller = ofc.createServer(address, port)
+module.exports.startController = function(address, port, io) {   
+    controller = ofc.createServer(address, port)
 
 
     //Event Listeners
@@ -21,12 +19,13 @@ module.exports.startController = function(address, port) {
     controller.on('OFPT_HELLO',
     function(socket, data) {
         ofmessage.OFPT_HELLO = true
+        io.emit('message', 'Hello')
     })
 
     controller.on('OFPT_ECHO_REQUEST',
     function(socket, data) {
         controller.sendMessage(socket, ofm.echo)
-
+        io.emit('message', 'This is a test')
     })
 
     controller.on('OFPT_FEATURES_REPLY',
@@ -52,6 +51,6 @@ module.exports.startController = function(address, port) {
 
     })
 
-    
+
 }
 
