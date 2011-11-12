@@ -5,7 +5,7 @@
 var express = require('express')
  var stylus = require('stylus')
  var nib = require('nib')
- var io = require('socket.io')
+ var sio = require('socket.io')
  var nc = require('./nodeController.js')
  var util = require('util');
 
@@ -23,7 +23,7 @@ var app = express.createServer()
         compile: compile
     }))
     app.use(express.static(__dirname + '/public'));
-    app.set('views', __dirname);
+    app.set('views', __dirname + '/views');
     app.set('view engine', 'jade');
 
     function compile(str, path) {
@@ -33,12 +33,26 @@ var app = express.createServer()
     };
 });
 
+//Listeners
+app.listen(3000,
+function() {
+    var addr = app.address();
+    util.log('WebServer listening on http://' + addr.address + ':' + addr.port);
+});
+
+
 //Routes
 app.get('/',
 function(req, res) {
     res.render('index', {
-        layout: false
-    });
+        title: 'NodeFlow'
+    })
+});
+app.get('/test',
+function(req, res) {
+    res.render('test', {
+        title: 'test'
+    })
 });
 
 app.get('/riak',
@@ -48,33 +62,29 @@ function(req, res) {
     });
 });
 
-//Listeners
-app.listen(3000, function() {
-    var addr = app.address();
-    util.log('WebServer listening on http://' + addr.address + ':' + addr.port);
-});                                
 
-var iosocket = io.listen(app), client = {} 
-// iosocket.set('log level', 5); 
-//   
+var io = sio.listen(app)
 
-var controller = nc.startController(address, port, iosocket)     
-  
-// iosocket.sockets.on('connection', function(socket){
-//    
-// 	socket.on('connect', )
-//     iosocket.emit('message', 'Hello')  
+// Working
+ var controller = new nc.NodeController();
 
-	// socket.on('disconnect', function(){
-	// 		if(!socket.client) return;
-	// 		delete client[socket.client]
-	// 	})
-// })
+controller.startController(address, port);
 
-// 
-// 
-//  io.sockets.on('connection',
-// function(socket) {
-//     var controllerInstance = server.startServer(socket)
-// });              
-                                   
+controller.on('OFPT_HELLO',
+function(data) { 
+	 io.sockets.emit('message', 'HELLO');  
+})
+
+
+ controller.on('OFPT_ECHO_REQUEST',
+function(data) { 
+	 io.sockets.emit('message', 'ECHO'); 
+})
+
+ controller.on('OFPT_PACKET_IN',
+function(data) {
+   io.sockets.emit('user_message', 'PACKET_IN');    
+})
+
+
+

@@ -4,53 +4,63 @@ var controller = require('./lib/nodeflow.js')
  var decoder = require('./lib/decoder.js')
  var ofc = require('./lib/nodeflow.js')
  var util = require('util');
+var events = require('events');
 
-function nodeController() {
-
+function NodeController() {
+    if (false === (this instanceof NodeController)) {
+        return new NodeController()
     }
+    events.EventEmitter.call(this);
+}
 
-module.exports.startController = function(address, port, io) {   
-    controller = ofc.createServer(address, port)
+util.inherits(NodeController, events.EventEmitter);
 
+NodeController.prototype.startController = function(address, port, io) {
+    var appevent = this;
+    var node = new controller.NodeFlow()
+    node.Start(address, port)
 
     //Event Listeners
     ofmessage = {}
 
-    controller.on('OFPT_HELLO',
+    node.on('OFPT_HELLO',
     function(socket, data) {
         ofmessage.OFPT_HELLO = true
-        io.emit('message', 'Hello')
+        appevent.emit('OFPT_HELLO', data)
     })
 
-    controller.on('OFPT_ECHO_REQUEST',
+    node.on('OFPT_ECHO_REQUEST',
     function(socket, data) {
-        controller.sendMessage(socket, ofm.echo)
-        io.emit('message', 'This is a test')
+        node.sendMessage(socket, ofm.echo)
+        appevent.emit('OFPT_ECHO_REQUEST', data)
+    })  
+	node.on('OFPT_ECHO_REPLY',
+    function(socket, data) {
+        appevent.emit('OFPT_ECHO_REPLY', data)
     })
 
-    controller.on('OFPT_FEATURES_REPLY',
+    node.on('OFPT_FEATURES_REPLY',
     function(socket, data) {
         ofmessage.OFPT_FEATURES_REPLY = true
-        console.dir(data)
         // var buf = ofm.unpackFeaturesReply(data)
     })
 
-    controller.on('OFPT_PORT_STATUS ',
+    node.on('OFPT_PORT_STATUS ',
     function(socket, data) {
         ofmessage.got_OFPT_PORT_STATUS = true
-        console.dir(data)
         // var buf = ofm.unpackFeaturesReply(data)
     })
 
 
-    controller.on('OFPT_PACKET_IN',
+    node.on('OFPT_PACKET_IN',
     function(socket, data) {
-        // var packetIn = ofm.unpackPacketIn(data)
-        var pbuf = decoder.decodeethernet(data.buffer, 0)
+        var pbuf = decoder.decodeethernet(data.message.data, 0)
+		appevent.emit('OFPT_PACKET_IN', data)   
         console.dir(pbuf)
-
     })
 
 
 }
 
+
+module.exports.NodeController = NodeController

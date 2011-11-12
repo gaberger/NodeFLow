@@ -1,0 +1,201 @@
+info it worked if it ends with ok
+verbose cli [ 'node', '/usr/local/bin/npm', 'update', '-g' ]
+info using npm@1.0.103
+info using node@v0.5.10
+verbose config file /Users/gary/.npmrc
+verbose config file /usr/local/etc/npmrc
+verbose config file /usr/local/lib/node_modules/npm/npmrc
+silly exec /usr/local/bin/node "/usr/local/lib/node_modules/npm/bin/npm-get-uid-gid.js" "nobody" 20
+silly spawning [ '/usr/local/bin/node',
+silly spawning   [ '/usr/local/lib/node_modules/npm/bin/npm-get-uid-gid.js',
+silly spawning     'nobody',
+silly spawning     20 ],
+silly spawning   null ]
+silly output from getuid/gid {"uid":-2,"gid":20}
+silly output from getuid/gid 
+silly testEngine { name: 'express',
+silly testEngine   description: 'Sinatra inspired web development framework',
+silly testEngine   version: '2.5.0',
+silly testEngine   author: { name: 'TJ Holowaychuk', email: 'tj@vision-media.ca' },
+silly testEngine   contributors: 
+silly testEngine    [ { name: 'TJ Holowaychuk', email: 'tj@vision-media.ca' },
+silly testEngine      { name: 'Aaron Heckmann',
+silly testEngine        email: 'aaron.heckmann+github@gmail.com' },
+silly testEngine      { name: 'Ciaran Jessup', email: 'ciaranj@gmail.com' },
+silly testEngine      { name: 'Guillermo Rauch', email: 'rauchg@gmail.com' } ],
+silly testEngine   dependencies: 
+silly testEngine    { connect: '1.7.x',
+silly testEngine      mime: '>= 0.0.1',
+silly testEngine      qs: '>= 0.3.1',
+silly testEngine      mkdirp: '0.0.7' },
+silly testEngine   devDependencies: 
+silly testEngine    { 'connect-form': '0.2.1',
+silly testEngine      ejs: '0.4.2',
+silly testEngine      expresso: '0.9.2',
+silly testEngine      hamljs: '0.5.1',
+silly testEngine      jade: '0.16.2',
+silly testEngine      stylus: '0.13.0',
+silly testEngine      should: '0.3.2',
+silly testEngine      'express-messages': '0.0.2',
+silly testEngine      'node-markdown': '>= 0.0.1',
+silly testEngine      'connect-redis': '>= 0.0.1' },
+silly testEngine   keywords: [ 'framework', 'sinatra', 'web', 'rest', 'restful' ],
+silly testEngine   repository: { type: 'git', url: 'git://github.com/visionmedia/express.git' },
+silly testEngine   main: 'index',
+silly testEngine   bin: { express: './bin/express' },
+silly testEngine   scripts: { test: 'make test', prepublish: 'npm prune' },
+silly testEngine   engines: { node: '>= 0.4.1 < 0.7.0' },
+silly testEngine   _id: 'express@2.5.0',
+silly testEngine   _engineSupported: true,
+silly testEngine   _npmVersion: '1.0.103',
+silly testEngine   _nodeVersion: 'v0.5.10',
+silly testEngine   _defaultsLoaded: true }
+verbose caching /usr/local/lib/node_modules/express/package.json
+verbose loadDefaults express@2.5.0
+silly testEngine { name: 'jade',
+silly testEngine   description: 'Jade template engine',
+silly testEngine   version: '0.16.4',
+silly testEngine   author: { name: 'TJ Holowaychuk', email: 'tj@vision-media.ca' },
+silly testEngine   repository: { type: 'git', url: 'git://github.com/visionmedia/jade.git' },
+silly testEngine   main: './index.js',
+silly testEngine   bin: { jade: './bin/jade' },
+silly testEngine   dependencies: { commander: '0.2.x', mkdirp: '>= 0.0.7' },
+silly testEngine   devDependencies: 
+silly testEngine    { expresso: '0.9.2',
+silly testEngine      'coffee-script': '>= 0.0.1',
+silly testEngine      sass: '>= 0.0.1',
+silly testEngine      less: '>= 0.0.1',
+silly testEngine      markdown: '>= 0.0.1',
+silly testEngine      stylus: '>= 0.0.1',
+silly testEngine      uubench: '0.0.1',
+silly testEngine      'uglify-js': '>= 1.0.7' },
+silly testEngine   scripts: { prepublish: 'npm prune' },
+silly testEngine   engines: { node: '>= 0.1.98' },
+silly testEngine   _id: 'jade@0.16.4',
+silly testEngine   _engineSupported: true,
+silly testEngine   _npmVersion: '1.0.103',
+silly testEngine   _nodeVersion: 'v0.5.10',
+silly testEngine   _defaultsLoaded: true }
+verbose caching /usr/local/lib/node_modules/jade/package.json
+verbose loadDefaults jade@0.16.4
+silly testEngine { name: 'ndb',
+silly testEngine   author: 
+silly testEngine    { name: 'Scott Taylor',
+silly testEngine      email: 'scott@railsnewbie.com',
+silly testEngine      url: 'http://blog.railsnewbie.com/' },
+silly testEngine   version: '0.2.4',
+silly testEngine   bin: { ndb: './bin/ndb' },
+silly testEngine   main: './lib/ndb.js',
+silly testEngine   directories: { bin: './bin', lib: './lib', doc: './doc' },
+silly testEngine   repository: { url: 'git://github.com/smtlaissezfaire/ndb.git', type: 'git' },
+silly testEngine   scripts: { test: 'make test' },
+silly testEngine   _id: 'ndb@0.2.4',
+silly testEngine   dependencies: {},
+silly testEngine   devDependencies: {},
+silly testEngine   engines: { node: '*' },
+silly testEngine   _engineSupported: true,
+silly testEngine   _npmVersion: '1.0.103',
+silly testEngine   _nodeVersion: 'v0.5.10',
+silly testEngine   _defaultsLoaded: true }
+verbose caching /usr/local/lib/node_modules/ndb/package.json
+verbose loadDefaults ndb@0.2.4
+silly testEngine { name: 'node-inspector',
+silly testEngine   version: '0.1.10',
+silly testEngine   description: 'Web Inspector based nodeJS debugger',
+silly testEngine   homepage: 'http://github.com/dannycoates/node-inspector',
+silly testEngine   author: { name: 'Danny Coates', email: 'dannycoates@gmail.com' },
+silly testEngine   keywords: [ 'debug', 'debugger', 'inspector', 'profiler' ],
+silly testEngine   repository: 
+silly testEngine    { type: 'git',
+silly testEngine      url: 'git://github.com/dannycoates/node-inspector.git' },
+silly testEngine   engines: { node: '>=0.3.0' },
+silly testEngine   bin: { 'node-inspector': './bin/inspector.js' },
+silly testEngine   dependencies: { 'socket.io': '~0.8.2', paperboy: '~0.0.2' },
+silly testEngine   _id: 'node-inspector@0.1.10',
+silly testEngine   devDependencies: {},
+silly testEngine   _engineSupported: true,
+silly testEngine   _npmVersion: '1.0.103',
+silly testEngine   _nodeVersion: 'v0.5.10',
+silly testEngine   _defaultsLoaded: true }
+verbose caching /usr/local/lib/node_modules/node-inspector/package.json
+verbose loadDefaults node-inspector@0.1.10
+silly testEngine { name: 'node-int64',
+silly testEngine   description: 'Support for representing 64-bit integers in JavaScript',
+silly testEngine   url: 'http://github.com/broofa/node-int64',
+silly testEngine   keywords: [ 'math', 'integer', 'int64' ],
+silly testEngine   author: { name: 'Robert Kieffer', email: 'robert@broofa.com' },
+silly testEngine   contributors: [],
+silly testEngine   dependencies: {},
+silly testEngine   lib: '.',
+silly testEngine   main: './Int64.js',
+silly testEngine   version: '0.3.0',
+silly testEngine   _id: 'node-int64@0.3.0',
+silly testEngine   devDependencies: {},
+silly testEngine   engines: { node: '*' },
+silly testEngine   _engineSupported: true,
+silly testEngine   _npmVersion: '1.0.103',
+silly testEngine   _nodeVersion: 'v0.5.10',
+silly testEngine   _defaultsLoaded: true }
+verbose caching /usr/local/lib/node_modules/node-int64/package.json
+verbose loadDefaults node-int64@0.3.0
+WARN riak-js@0.4.1 package.json: bugs['web'] should probably be bugs['url']
+silly testEngine { name: 'riak-js',
+silly testEngine   version: '0.4.1',
+silly testEngine   description: 'Riak client with support for HTTP and Protocol Buffers',
+silly testEngine   keywords: [ 'riak', 'nosql', 'database', 'http', 'protobuf' ],
+silly testEngine   maintainers: 
+silly testEngine    [ { name: 'Francisco Treacy',
+silly testEngine        email: 'francisco.treacy@gmail.com',
+silly testEngine        url: 'http://franciscotreacy.com' },
+silly testEngine      { name: 'Sean Cribbs', email: 'sean@basho.com' },
+silly testEngine      { name: 'rick', url: 'technoweenie' } ],
+silly testEngine   bugs: { url: 'http://github.com/frank06/riak-js/issues' },
+silly testEngine   licenses: 
+silly testEngine    [ { type: 'MIT',
+silly testEngine        url: 'http://opensource.org/licenses/mit-license.php' } ],
+silly testEngine   repositories: [ { type: 'git', url: 'git://github.com/frank06/riak-js.git' } ],
+silly testEngine   main: 'index',
+silly testEngine   directories: { lib: './lib' },
+silly testEngine   os: [ 'linux', 'darwin' ],
+silly testEngine   dependencies: {},
+silly testEngine   devDependencies: { vows: '*', 'coffee-script': '*' },
+silly testEngine   engines: { node: '>=0.4.0' },
+silly testEngine   _id: 'riak-js@0.4.1',
+silly testEngine   _engineSupported: true,
+silly testEngine   _npmVersion: '1.0.103',
+silly testEngine   _nodeVersion: 'v0.5.10',
+silly testEngine   _defaultsLoaded: true }
+verbose caching /usr/local/lib/node_modules/riak-js/package.json
+verbose loadDefaults riak-js@0.4.1
+silly testEngine { name: 'socket.io',
+silly testEngine   version: '0.8.7',
+silly testEngine   description: 'Real-time apps made cross-browser & easy with a WebSocket-like API',
+silly testEngine   homepage: 'http://socket.io',
+silly testEngine   keywords: [ 'websocket', 'socket', 'realtime', 'socket.io', 'comet', 'ajax' ],
+silly testEngine   author: { name: 'Guillermo Rauch', email: 'guillermo@learnboost.com' },
+silly testEngine   contributors: 
+silly testEngine    [ { name: 'Guillermo Rauch', email: 'rauchg@gmail.com' },
+silly testEngine      { name: 'Arnout Kazemier', email: 'info@3rd-eden.com' },
+silly testEngine      { name: 'Vladimir Dronnikov', email: 'dronnikov@gmail.com' },
+silly testEngine      { name: 'Einar Otto Stangvik', email: 'einaros@gmail.com' } ],
+silly testEngine   repository: 
+silly testEngine    { type: 'git',
+silly testEngine      url: 'git://github.com/LearnBoost/socket.io.git' },
+silly testEngine   dependencies: 
+silly testEngine    { 'socket.io-client': '0.8.7',
+silly testEngine      policyfile: '0.0.4',
+silly testEngine      redis: '0.6.7' },
+silly testEngine   devDependencies: 
+silly testEngine    { expresso: '0.9.2',
+silly testEngine      should: '0.0.4',
+silly testEngine      assertvanish: '0.0.3-1',
+silly testEngine      benchmark: '0.2.2',
+silly testEngine      microtime: '0.1.3-1',
+silly testEngine      colors: '0.5.1' },
+silly testEngine   main: 'index',
+silly testEngine   engines: { node: '>= 0.4.0' },
+silly testEngine   _id: 'socket.io@0.8.7',
+silly testEngine   _engineSupported: true,
+silly testEngine   _npmVersion: '1.0.103',
+silly testEngine   _nodeVersion: 'v0.5.10',
+silly testEngine   _defaultsLoaded: true }
