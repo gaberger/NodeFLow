@@ -15,50 +15,47 @@ var server = require('./lib/nodeflow-server.js')
  var nc = new server.NodeFlow()
  nc.Start(address, port)
 
- 			nc.on('OFPT_HELLO', function(socket, inmessage) {
-			    // io.sockets.emit('message', 'HELLO');
-			    var outmessage = {
-       
-			            header: {
-			                type: 'OFPT_HELLO',
-			                xid: inmessage.message.header.xid
-			            },
-			            version: inmessage.message.version
-
-       
-			    };
-  
-			    var buf = new Buffer(oflib.ofp.sizes.ofp_header); 
-			    pack = oflib.pack(outmessage, buf, 0) 
-				console.dir(buf)   
-				socket.write(buf)
-
-
+ 			nc.on('OFPT_HELLO', function(socket, msg) { 
+				   this.version = msg.message.version
+			                    
+		      		  var buf = new Buffer(oflib.ofp.sizes.ofp_header); 
+					    pack = oflib.pack(msg.message, buf, 0) 
+				    	socket.write(buf) 
+						console.dir(buf)  
+				
+				
+		               	message = {                 
+		               	  		  "header" : {"type" : 'OFPT_FEATURES_REQUEST', "xid" : 1},
+		   				 	      "version" : this.version,
+		   				 	      "body" : {}
+		   				  	      };   
+               	                        
+					    	var buf = new Buffer(oflib.ofp.sizes.ofp_header); 
+						    pack = oflib.pack(message, buf, 0) 
+					    	socket.write(buf) 
+							console.dir(buf)
+                  
 			})                    
 
 
- nc.on('OFPT_ECHO_REQUEST',  function(socket, inmessage) {    
-	var outmessage = {
+			nc.on('OFPT_ECHO_REQUEST',  function(socket, msg) {  
+				msg.message.header.type = 'OFPT_ECHO_REPLY'  
+        	    var buf = new Buffer(oflib.ofp.sizes.ofp_header);
+			    var pack = oflib.pack(msg.message, buf, 0)   
+		        socket.write(buf) 
+				console.dir(buf)
+			})
 
-            header: {
-                type: 'OFPT_ECHO_REPLY',
-                xid: inmessage.message.header.xid
-            },
-            version: inmessage.message.version
 
-
-    };
-
-    var buf = new Buffer(oflib.ofp.sizes.ofp_header);
-    var pack = oflib.pack(outmessage, buf, 0)
-   	console.dir(buf)   
-	socket.write(buf)
-})
-
- nc.on('OFPT_PACKET_IN',
-function(data) {
-    // io.sockets.emit('message', 'PACKET_IN', data);
-    })
+			nc.on('OFPT_PACKET_IN',    function(socket, msg) { 
+				  console.dir(msg)
+				
+				
+			}) 
+			
+			nc.on('OFPT_FEATURES_REPLY', function(socket, msg) {
+				 console.dir(msg)
+			})
 
 
 
