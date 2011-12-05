@@ -2,89 +2,63 @@
 // Prototype to investiage eventing system handling of OF messages
 // Author : Gary Berger, Cisco Systems, inc.
 // Load Libs
-var express = require('express')
- var stylus = require('stylus')
- var nib = require('nib')
- var sio = require('socket.io')
- var nc = require('./nodeController.js')
- var util = require('util');
+var util = require('util');
+var oflib = require('./oflib-node')
 
-//Globals
-var address = '10.8.3.119'
+//Controller Globals
+ var address = '10.8.3.119'
 var port = 6633
+var version = 1
 
+var server = require('./lib/nodeflow-server.js')
 
-//Initialize Express
-var app = express.createServer()
-//Configure Express
- app.configure(function() {
-    app.use(stylus.middleware({
-        src: __dirname + '/public',
-        compile: compile
-    }))
-    app.use(express.static(__dirname + '/public'));
-    app.set('views', __dirname + '/views');
-    app.set('view engine', 'jade');
+ var nc = new server.NodeFlow()
+ nc.Start(address, port)
 
-    function compile(str, path) {
-        return stylus(str)
-        .set('filename', path)
-        .use(nib());
+ nc.on('OFPT_HELLO', function(socket, inmessage) {
+    // io.sockets.emit('message', 'HELLO');
+    var outmessage = {
+       
+            header: {
+                type: 'OFPT_HELLO',
+                xid: inmessage.message.header.xid
+            },
+            version: inmessage.message.version
+
+       
     };
-});
-
-//Listeners
-app.listen(3000,
-function() {
-    var addr = app.address();
-    util.log('WebServer listening on http://' + addr.address + ':' + addr.port);
-});
+  
+    var buf = new Buffer(oflib.ofp.sizes.ofp_header); 
+    pack = oflib.pack(outmessage, buf, 0) 
+	console.dir(buf)   
+	socket.write(buf)
 
 
-//Routes
-app.get('/',
-function(req, res) {
-    res.render('index', {
-        title: 'NodeFlow'
-    })
-});
-app.get('/test',
-function(req, res) {
-    res.render('test', {
-        title: 'test'
-    })
-});
-
-app.get('/riak',
-function(req, res) {
-    res.render('db', {
-        layout: false
-    });
-});
-
-
-var io = sio.listen(app)
-
-// Working
- var controller = new nc.NodeController();
-
-controller.startController(address, port);
-
-controller.on('OFPT_HELLO',
-function(data) { 
-	 io.sockets.emit('message', 'HELLO');  
 })
 
 
- controller.on('OFPT_ECHO_REQUEST',
-function(data) { 
-	 io.sockets.emit('message', 'ECHO'); 
+ nc.on('OFPT_ECHO_REQUEST',  function(socket, inmessage) {    
+	var outmessage = {
+
+            header: {
+                type: 'OFPT_ECHO_REPLY',
+                xid: inmessage.message.header.xid
+            },
+            version: inmessage.message.version
+
+
+    };
+
+    var buf = new Buffer(oflib.ofp.sizes.ofp_header);
+    var pack = oflib.pack(outmessage, buf, 0)
+   	console.dir(buf)   
+	socket.write(buf)
 })
 
- controller.on('OFPT_PACKET_IN',
+ nc.on('OFPT_PACKET_IN',
 function(data) {
-   io.sockets.emit('user_message', 'PACKET_IN');    
-})
+    // io.sockets.emit('message', 'PACKET_IN', data);
+    })
 
 
 

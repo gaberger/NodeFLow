@@ -1,0 +1,64 @@
+head
+  //- link(href='/stylesheets/style.css', rel='stylesheet') 
+  link(href='/stylesheets/layout-default-latest.css', rel='stylesheet')
+  script(src='http://code.jquery.com/jquery-1.6.1.min.js')
+  script(src='/socket.io/socket.io.js') 
+  script(src="/js/lib/jquery.layout-latest.js")
+  script
+    $(document).ready(function () {
+        $('body').layout({ applyDemoStyles: true });
+    });
+    
+  script
+    // socket.io specific code
+    var socket = io.connect();
+    socket.on('connect', function () {
+       $('#lines').prepend($('<p>').append($('<em>').text('connected')));
+    });
+    socket.on('message', function (msg, data) { 
+      $('#lines').prepend($('<p>').append($('<em>').text(msg))); 
+      console.log(data)
+    }); 
+    socket.on('user_message', function (data) {
+      console.log(data);
+      }); 
+     socket.on('error', function (e) { 
+       console.log('System', e ? e : 'A unknown error occurred'); 
+     });                             
+  
+      $(function () {      
+       $('#send-message').submit(function () {
+         socket.emit('message', {message: 'ping-down'}, function(data){
+         console.log(data)
+         });
+         return false;
+         //- message('me', $('#message').val());
+        
+         });
+       })                     
+                      
+      
+      
+      
+      
+      
+      //- function clear () {
+      //-          $('#message').val('').focus();
+      //-        }; 
+    //- });  
+    
+     //- function send(message){
+     //-  socket.emit('user_message', message)
+     //- }
+    // dom manipulation
+    //- $(function () {
+    //-   $('#set-nickname').submit(function (ev) {
+    //-     socket.emit('nickname', $('#nick').val(), function (set) {
+    //-       if (!set) {
+    //-         clear();
+    //-         return $('#chat').addClass('nickname-set');
+    //-       }
+    //-       $('#nickname-err').css('visibility', 'visible');
+    //-     });
+    //-     return false;
+    //-   });

@@ -1,10 +1,11 @@
-var controller = require('./lib/nodeflow.js')
- var ofl = require('./lib/oflib.js')
- var ofm = require('./lib/ofmessage.js')
- var decoder = require('./lib/decoder.js')
- var ofc = require('./lib/nodeflow.js')
- var util = require('util');
-var events = require('events');
+var controller = require('./lib/nodeflow-server.js');
+var ofl = require('./lib/oflib.js');
+var ofm = require('./lib/ofmessage.js');
+var decoder = require('./lib/decoder.js');
+var ofc = require('./lib/nodeflow.js');
+var util = require('util');
+var events = require('events');  
+var oflib = require('./lib/oflib-node');  
 
 function NodeController() {
     if (false === (this instanceof NodeController)) {
@@ -16,16 +17,17 @@ function NodeController() {
 util.inherits(NodeController, events.EventEmitter);
 
 NodeController.prototype.startController = function(address, port, io) {
-    var appevent = this;
+    var appevent = this;   
+
+
+
     var node = new controller.NodeFlow()
     node.Start(address, port)
 
-    //Event Listeners
-    ofmessage = {}
 
-    node.on('OFPT_HELLO',
-    function(socket, data) {
-        ofmessage.OFPT_HELLO = true
+    node.on('OFPT_HELLO', function(socket, data) {
+        ofmessage.OFPT_HELLO = true 
+                   socket.write(ofp)
         appevent.emit('OFPT_HELLO', data)
     })
 
@@ -33,15 +35,16 @@ NodeController.prototype.startController = function(address, port, io) {
     function(socket, data) {
         node.sendMessage(socket, ofm.echo)
         appevent.emit('OFPT_ECHO_REQUEST', data)
-    })  
-	node.on('OFPT_ECHO_REPLY',
+    })
+    node.on('OFPT_ECHO_REPLY',
     function(socket, data) {
         appevent.emit('OFPT_ECHO_REPLY', data)
     })
 
     node.on('OFPT_FEATURES_REPLY',
     function(socket, data) {
-        ofmessage.OFPT_FEATURES_REPLY = true
+        ofmessage.OFPT_FEATURES_REPLY = true 
+		appevent.emit('OFPT_FEATURES_REPLY', data)
         // var buf = ofm.unpackFeaturesReply(data)
     })
 
@@ -53,9 +56,9 @@ NodeController.prototype.startController = function(address, port, io) {
 
 
     node.on('OFPT_PACKET_IN',
-    function(socket, data) {
-        var pbuf = decoder.decodeethernet(data.message.data, 0)
-		appevent.emit('OFPT_PACKET_IN', data)   
+    function(socket, packet) { 
+	    var pbuf = decoder.decodeethernet(packet.message.body.data, 0)
+        appevent.emit('OFPT_PACKET_IN', pbuf)
         console.dir(pbuf)
     })
 

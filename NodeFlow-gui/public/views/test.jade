@@ -1,0 +1,43 @@
+form(method="post")
+        p Click
+        input(type="radio", name="a", value="a", onclick="document.bgColor='red'") 
+        input(type="radio", name="a", value="b", onclick="document.bgColor='blue'") 
+        input(type="radio", name="a", value="c", onclick="document.bgColor='yellow'")
+        p Change
+        input(type="radio", name="b", value="a", onchange="document.bgColor='red';") 
+        input(type="radio", name="b", value="b", onchange="document.bgColor='blue';") 
+        input(type="radio", name="b", value="c", onchange="document.bgColor='yellow';")
+        p Blur
+        input(type="radio", name="c", value="a", onblur="document.bgColor='red'") 
+        input(type="radio", name="c", value="b", onblur="document.bgColor='blue'") 
+        input(type="radio", name="c", value="c", onblur="document.bgColor='yellow'")
+        p Focus
+        input(type="radio", name="d", value="a", onfocus="document.bgColor='red'") 
+        input(type="radio", name="d", value="b", onfocus="document.bgColor='blue'") 
+        input(type="radio", name="d", value="c", onfocus="document.bgColor='yellow'")     
+       
+      //- label(for="user[email]") Email:
+      //-       input(type="text", name="user[email]", value=user.email)
+      //-       .tip.
+      //-         Enter a valid 
+      //-         email address 
+      //-         such as <em>tj@vision-media.ca</em>.
+      //- fieldset
+      //-   legend Location
+      //-   p
+      //-     label(for="user[city]") City:
+      //-       input(type="text", name="user[city]", value=user.city)
+      //-   p
+      //-     select(name="user[province]")
+      //-       option(value="") -- Select Province --
+      //-       option(value="AB") Alberta
+      //-       option(value="BC") British Columbia
+      //-       option(value="SK") Saskatchewan
+      //-       option(value="MB") Manitoba
+      //-       option(value="ON") Ontario
+      //-       option(value="QC") Quebec
+      //- p.buttons
+      //-   input(type="submit", value="Save")  
+    
+    
+    
