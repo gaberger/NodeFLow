@@ -15,26 +15,26 @@ var server = require('./lib/nodeflow-server.js')
  var nc = new server.NodeFlow()
  nc.Start(address, port)
 
- nc.on('OFPT_HELLO', function(socket, inmessage) {
-    // io.sockets.emit('message', 'HELLO');
-    var outmessage = {
+ 			nc.on('OFPT_HELLO', function(socket, inmessage) {
+			    // io.sockets.emit('message', 'HELLO');
+			    var outmessage = {
        
-            header: {
-                type: 'OFPT_HELLO',
-                xid: inmessage.message.header.xid
-            },
-            version: inmessage.message.version
+			            header: {
+			                type: 'OFPT_HELLO',
+			                xid: inmessage.message.header.xid
+			            },
+			            version: inmessage.message.version
 
        
-    };
+			    };
   
-    var buf = new Buffer(oflib.ofp.sizes.ofp_header); 
-    pack = oflib.pack(outmessage, buf, 0) 
-	console.dir(buf)   
-	socket.write(buf)
+			    var buf = new Buffer(oflib.ofp.sizes.ofp_header); 
+			    pack = oflib.pack(outmessage, buf, 0) 
+				console.dir(buf)   
+				socket.write(buf)
 
 
-})
+			})                    
 
 
  nc.on('OFPT_ECHO_REQUEST',  function(socket, inmessage) {    
