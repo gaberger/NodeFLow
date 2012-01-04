@@ -1,6 +1,6 @@
 
 
-var NodeFlowServer = require('./nodeflow-hook-server.js').NodeFlowServer;
+var NodeFlowServer = require('../lib/nodeflow-hook-server.js').NodeFlowServer;
 
 var NodeFlowServer = new NodeFlowServer({
   name: "nodeflow-server",
