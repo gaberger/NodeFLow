@@ -7,7 +7,7 @@ var NodeFlowServer = new NodeFlowServer({
   debug: false,
   address: "10.8.3.100",
   serverport: "6633",
-  silent: true
+  silent: false
 });
 
 NodeFlowServer.start();
