@@ -1,13 +1,7 @@
 
 
-var NodeFlowServer = require('../lib/nodeflow-hook-server.js').NodeFlowServer;
+var NodeFlowServer = require('../lib/nodeflow-server-combined.js').NodeFlowServer;
 
-var NodeFlowServer = new NodeFlowServer({
-  name: "nodeflow-server",
-  debug: false,
-  address: "10.8.3.100",
-  serverport: "6633",
-  silent: false
-});
+var NodeFlowServer = new NodeFlowServer();
 
-NodeFlowServer.start();
+NodeFlowServer.start("10.8.3.100", "6633");
