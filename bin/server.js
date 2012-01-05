@@ -1,6 +1,6 @@
 
 
-var NodeFlowServer = require('../lib/nodeflow-server-combined.js').NodeFlowServer;
+var NodeFlowServer = require('../lib/nodeflow-server.js').NodeFlowServer;
 
 var NodeFlowServer = new NodeFlowServer();
 
