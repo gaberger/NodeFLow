@@ -1,7 +1,7 @@
 
-
+//Load NodeFlowServer Class
 var NodeFlowServer = require('../lib/nodeflow-server.js').NodeFlowServer;
 
-var NodeFlowServer = new NodeFlowServer();
+var ns = new NodeFlowServer();
 
-NodeFlowServer.start("10.8.3.100", "6633");
+ns.start("10.8.3.100", "6633");
